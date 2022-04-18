@@ -19,7 +19,11 @@ import scala.concurrent.duration._
 class Fibonacci[F[_]: Trace: Async](entryPoint: EntryPoint[F])
                                    (implicit provide: Provide[F, F, Span[F]]) extends Http4sDsl[F] {
 
-  def build: Resource[F, Server] = emberServerFor(routes.inject(entryPoint))
+  def build: Resource[F, Server] = Resource.eval(
+    Trace[F].span("database") {
+      Async[F].sleep(127.millis) >> Async[F].blocking(println("Connected to a fake database"))
+    }
+  ) >> emberServerFor(routes.inject(entryPoint))
 
   private def routes: HttpRoutes[F] = HttpRoutes.of {
     case GET -> Root / IntVar(which) => Ok(fibonacci(which).map(_.toString))
