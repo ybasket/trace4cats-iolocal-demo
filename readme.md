@@ -7,8 +7,8 @@ spans. Demonstrates how tracing can be implemented using `cats.effect.IOLocal` a
 
 ### Preparation
 
-The code requires a trace4cats dependency built from the PR branch for `IOLocal`: https://github.com/trace4cats/trace4cats/pull/729
-Run a `publishLocal` in the repository to ensure you have a suitable version locally. If you build against a newer commit than `eca87239`, you'll need to adjust the `build.sbt` of this repo accordingly as well.
+The code requires a trace4cats dependency that includes the PR for `IOLocal`: https://github.com/trace4cats/trace4cats/pull/729.
+Sonatype snapshots from `0.13.1+20-973c3271` on fulfil this requirement. If you want to test further developments, make sure to publish locally and replace the version in `build.sbt`.
 
 ### Run it
 
