@@ -36,10 +36,11 @@ class NumbersServer[F[_] : Trace : Async](entryPoint: EntryPoint[F], port: Int, 
   }
 
   private def emberServerFor(routes: HttpRoutes[F]): Resource[F, Server] =
-    EmberServerBuilder
-      .default[F]
-      .withHost(ipv4"0.0.0.0")
-      .withPort(Port.fromInt(port).get)
-      .withHttpApp(routes.orNotFound)
-      .build
+    Resource.eval(Trace[F].span("init")(Async[F].blocking("Initializing the number crunching engine"))) >>
+      EmberServerBuilder
+        .default[F]
+        .withHost(ipv4"0.0.0.0")
+        .withPort(Port.fromInt(port).get)
+        .withHttpApp(routes.orNotFound)
+        .build
 }
