@@ -1,4 +1,4 @@
-package demo
+package demo.fibonacci
 
 import cats.effect.instances.all._
 import cats.effect.{Async, Resource}

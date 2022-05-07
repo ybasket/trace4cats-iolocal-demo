@@ -1,4 +1,4 @@
-package demo
+package demo.fibonacci
 
 import cats.effect.std.Random
 import cats.effect.{ExitCode, IO, IOApp, IOLocal, Resource}
