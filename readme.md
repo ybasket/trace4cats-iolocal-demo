@@ -8,11 +8,6 @@ This demonstrates how tracing information can be passed and received via HTTP (u
 
 ## Usage
 
-### Preparation
-
-The code requires a trace4cats dependency that includes the PR for `IOLocal`: https://github.com/trace4cats/trace4cats/pull/729.
-Sonatype snapshots from `0.13.1+20-973c3271` on fulfil this requirement. If you want to test further developments, make sure to publish locally and replace the version in `build.sbt`.
-
 ### Run the Fibonacci service
 
 To run the service, use `sbt`:

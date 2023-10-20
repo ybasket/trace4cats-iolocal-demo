@@ -3,13 +3,12 @@ package demo.fibonacci
 import cats.effect.std.Random
 import cats.effect.{ExitCode, IO, IOApp, IOLocal, Resource}
 import cats.syntax.all._
-import io.janstenpickle.trace4cats.Span
-import io.janstenpickle.trace4cats.base.context.Provide
-import io.janstenpickle.trace4cats.inject.io._
-import io.janstenpickle.trace4cats.inject.{EntryPoint, Trace}
-import io.janstenpickle.trace4cats.jaeger.JaegerSpanCompleter
-import io.janstenpickle.trace4cats.kernel.SpanSampler
-import io.janstenpickle.trace4cats.model.TraceProcess
+import trace4cats.context.Provide
+import trace4cats.iolocal.{ioLocalProvide, ioLocalTrace}
+import trace4cats.{EntryPoint, Span, Trace}
+import trace4cats.jaeger.JaegerSpanCompleter
+import trace4cats.kernel.SpanSampler
+import trace4cats.model.TraceProcess
 
 object Main extends IOApp {
   // custom implicit random protects against https://github.com/trace4cats/trace4cats/issues/740

@@ -3,15 +3,15 @@ package demo.even
 import cats.effect.std.Random
 import cats.effect.{ExitCode, IO, IOApp, IOLocal, Resource}
 import demo.fibonacci.Fibonacci
-import io.janstenpickle.trace4cats.{Span, ToHeaders}
-import io.janstenpickle.trace4cats.base.context.Provide
-import io.janstenpickle.trace4cats.http4s.client.syntax._
-import io.janstenpickle.trace4cats.inject.{EntryPoint, Trace}
-import io.janstenpickle.trace4cats.inject.io.{ioLocalProvide, ioLocalTrace}
-import io.janstenpickle.trace4cats.jaeger.JaegerSpanCompleter
-import io.janstenpickle.trace4cats.kernel.SpanSampler
-import io.janstenpickle.trace4cats.model.TraceProcess
+import trace4cats.{Span, ToHeaders}
+import trace4cats.http4s.client.syntax._
+import trace4cats.{EntryPoint, Trace}
+import trace4cats.iolocal._
+import trace4cats.jaeger.JaegerSpanCompleter
+import trace4cats.kernel.SpanSampler
+import trace4cats.model.TraceProcess
 import org.http4s.ember.client.EmberClientBuilder
+import trace4cats.context.Provide
 
 object Main extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = Random.scalaUtilRandom[IO].flatMap { implicit rand =>

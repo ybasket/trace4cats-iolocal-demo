@@ -4,15 +4,14 @@ import cats.effect.instances.all._
 import cats.effect.{Async, Resource}
 import cats.syntax.all._
 import com.comcast.ip4s._
-import io.janstenpickle.trace4cats.Span
-import io.janstenpickle.trace4cats.base.context.Provide
-import io.janstenpickle.trace4cats.http4s.server.syntax._
-import io.janstenpickle.trace4cats.inject.{EntryPoint, Trace}
+import trace4cats.{EntryPoint, Span, Trace}
+import trace4cats.http4s.server.syntax._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Server
 import org.http4s.syntax.all._
+import trace4cats.context.Provide
 
 import scala.concurrent.duration._
 
@@ -26,9 +25,12 @@ class Fibonacci[F[_]: Trace: Async](entryPoint: EntryPoint[F])
   }
 
   private def fibonacci(n: Int): F[Int] = Trace[F].span(s"fibonacci($n)") {
-    // Make it artificially slow to simulate some real computation
-    Async[F].sleep(50.millis) >> (if (n <= 2) Async[F].pure(1)
-    else (fibonacci(n - 2), fibonacci(n - 1)).parMapN(_ + _))
+    // Demonstrate setting some attributes
+    Trace[F].put("demo.fib", n).flatMap { _ =>
+      // Make it artificially slow to simulate some real computation
+      Async[F].sleep(50.millis) >> (if (n <= 2) Async[F].pure(1)
+      else (fibonacci(n - 2), fibonacci(n - 1)).parMapN(_ + _))
+    }
   }
 
   private def emberServerFor(routes: HttpRoutes[F]): Resource[F, Server] =
